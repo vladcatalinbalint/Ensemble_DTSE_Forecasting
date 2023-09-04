@@ -1,2 +1,11 @@
 # Ensemble_DTSE_Forecasting
 A simple unemployment forecasting ensemble model 
+For estimating the number of unemployed individuals in 2013, I utilized the SARIMAX model to forecast the population and combined it with the previously forecasted unemployment rate to derive the estimated number of unemployed people.
+
+I addressed the forecasting challenge in the following manner: first, I employed linear interpolation to fill in missing data points. Next, I visually inspected all time series to ensure data quality. To enhance the reliability of the unemployment data, I applied winsorization, aligning the two spikes with the middle 90% of the dataset. Subsequently, I conducted a Granger causality test to explore the causal relationships among variables, focusing on how other factors influenced unemployment. Notably, I decided to exclude the population variable from further analysis due to its p-value exceeding 0.05 in the Granger causality test.
+
+To ensure the stationarity of the variables, I employed the Augmented Dickey-Fuller (ADF) test and applied differencing where necessary. Further, I used these differenced series on both the univariate and variate models. The determination of the appropriate p and q values for the univariate SARIMAX model was guided by the examination of autocorrelation function (ACF) and partial autocorrelation function (PACF) plots. After constructing the SARIMAX model, I generated forecasts and then adjusted them to align with the original data. There's not too much experimentation here as it was pretty clear from the plots which p,q I should choose.
+
+Moving on to the multivariate modeling approach, I utilized a VARMAX model. To optimize this model, I employed a grid-search approach for hyperparameter tuning, specifically tuning the p and q values. Subsequently, I employed an ensemble model that combined 50% of the predictions from each of the previous models to arrive at the final forecasts.
+
+While it is evident in hindsight that the predictions did not align perfectly with the actual unemployment figures, it's important to note that this approach was chosen due to time constraints during the project. In conclusion, I also experimented with a VARMAX model on the unstationarized time series, which yielded improved predictions but did not adhere strictly to statistical best practices.
